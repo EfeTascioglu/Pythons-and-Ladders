@@ -25,7 +25,7 @@ def setup():
     diceSound=minim.loadFile("DiceSound.mp3")
     size ( 700, 500 )
     RandomDice = int(random(0,6))
-    
+    player1 = False
     for i in range( numSquares ):
         upperLeft =  [ squareXShow, squareYShow ]
         lowerRight = [ squareXShow + squareWidth, squareYShow + squareHeight ]
@@ -63,9 +63,12 @@ def mouseReleased():
             break
     if keepGoing:
         if validLocation:
+            player1 = not(player1)
             RandomDice = int(random(0,6))
             diceSound.play()
-        
+            delay(1000)
+            diceSound.pause()
+            diceSound.rewind()
     
 
 def draw():
