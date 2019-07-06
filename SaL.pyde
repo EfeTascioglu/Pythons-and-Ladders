@@ -1,23 +1,23 @@
 
 
 def setup():
-    global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice
+    global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, startFill, startSquareX, startSquareY
+    global backdrop, banner, dice, RandomDice
     allBoundaries = []
-    startSquareX = 100
-    startSquareY = 200
+    startSquareX = 600
+    startSquareY = 400
     squareXShow = startSquareX
     squareYShow = startSquareY
-    squareHeight = 200
-    squareWidth = 200
-    numSquares = 5
-    removeSquare = True
+    squareHeight = 100
+    squareWidth = 100
+    numSquares = 1
     startFill = 20
     whichSquare = -1
     banner = loadImage("banner.png")
     backdrop = loadImage("snakes.png")
     dice = loadImage("dice.png")
     size ( 700, 500 )
+    RandomDice = int(random(0,6))
     
     for i in range( numSquares ):
         upperLeft =  [ squareXShow, squareYShow ]
@@ -25,9 +25,8 @@ def setup():
         clickBoundary = [ upperLeft, lowerRight ]
         allBoundaries.append( clickBoundary )
         squareXShow = squareXShow + squareWidth
+    print( allBoundaries )
     
-    activeSquares = [ True for i in range( numSquares ) ]
-
 #    activeSquares[ 4 ] = False                  These just show what happened
 #    print ( activeSquares )
             
@@ -41,39 +40,39 @@ def setup():
     
     
 def mouseReleased():
-    global allBoundaries, whichSquare, removeSquare, activeSquares, numSquares
+    global allBoundaries, whichSquare, removeSquare, activeSquares, numSquares, RandomDice
     
 #  all Boundaries is a list of tuples,  each tuple is the upper left and lower right of each box
 #  if removeSquare is True, you will not be able to click again in that square again as that place in activeSquares will be turned to False
     whichSquare = - 1
     keepGoing = False
     for i in range( numSquares ):
-        if activeSquares[ i ]:
-            validXRange = allBoundaries[i][0][0] <= mouseX <= allBoundaries[i][1][0] 
-            validYRange = allBoundaries[i][0][1]  <= mouseY <= allBoundaries[i][1][1]
-            validLocation = validXRange and validYRange
-            if validLocation:
-                whichSquare = i
-                keepGoing = True
-                break
+        validXRange = allBoundaries[i][0][0] <= mouseX <= allBoundaries[i][1][0] 
+        validYRange = allBoundaries[i][0][1]  <= mouseY <= allBoundaries[i][1][1]
+        validLocation = validXRange and validYRange
+        if validLocation:
+            print("ping")
+            whichSquare = i
+            keepGoing = True
+            break
     if keepGoing:
-        if validLocation and removeSquare:
-            activeSquares[ whichSquare ] = False
-    print ( whichSquare )
+        if validLocation:
+             print ( whichSquare )
+    RandomDice = int(random(0,6))
         
         
     
 
 def draw():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice
+    global backdrop, banner, dice, RandomDice
    
-    rand = random(0,6)
+
     image(backdrop, 0, 0, 600, 500)
     image(banner, 600, 0, 100, 400, 10, 10, 110, 380)
     fill(255)
     rect( 600, 400, 100, 100)
-    image(dice, 600, 400, 100, 100, 100*rand, 0, 100+100*rand, 97)
+    image(dice, 600, 400, 100, 100, 100*RandomDice, 0, 100+100*RandomDice, 97)
     '''
     squareXShow = startSquareX
     Fill = startFill
