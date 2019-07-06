@@ -1,15 +1,9 @@
-
-
-
-
-# My dice rolling sound does not work
-
 def setup():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, startFill, startSquareX, startSquareY
     global backdrop, banner, dice, RandomDice, diceSound, numTiles, playerTurn, track, distances, tileBounds, numPlayers
-    tileBounds = [-1]
+    #tileBounds = [-1]
     numTiles = 30
-    numPlayers = 2
+    numPlayers = 4
     allBoundaries = []
     startSquareX = 600
     startSquareY = 400
@@ -46,7 +40,7 @@ def setup():
         clickBoundary = [ upperLeft, lowerRight ]
         allBoundaries.append( clickBoundary )
         squareXShow = squareXShow + squareWidth
-    
+    """
     squareXShow = 0
     squareYShow = 400
     squareWidth = 100
@@ -62,7 +56,8 @@ def setup():
         squareYShow -= squareHeight
         squareIncrease *= -1
         squareXShow += squareIncrease # So that when moving up rows it remains in the grid 
-    print(tileBounds)      
+    print(tileBounds)
+    """      
 #    activeSquares[ 4 ] = False                  These just show what happened
 #    print ( activeSquares )
             
@@ -94,7 +89,7 @@ def mouseReleased():
         if validLocation:
             RandomDice = int(random(0,6))
             diceSound.play()
-            delay(600)
+            delay(500)
             diceSound.pause()
             diceSound.rewind()
             if track[RandomDice+1 + distances[playerTurn]] > 0:
@@ -116,16 +111,16 @@ def draw():
     rect( 600, 400, 100, 100)
     image(dice, 600, 400, 100, 100, 100*RandomDice, 0, 100+100*RandomDice, 97)
     strokeWeight(5)
-    fill(255, 0, 0)
     for i in range(numPlayers):
+        fill( 255 - 64 * i, 0, 64 * i )
         row = 4 - (distances[i]-1) //6
         if row % 2 == 0:
             collumn = (distances[i]-1) % 6
         else:
             collumn = 5 - (distances[i]-1) % 6
-        ellipse    
-    for i in range(numPlayers):
-        ellipse(tileBounds[distances[i]][0][0] + 50, tileBounds[distances[i]][0][1] + 30, 20, 20)
+        ellipse( i*10 + 50 - 5 * numPlayers + collumn * 100, row * 100 + 70, 20, 20)
+    #for i in range(numPlayers):
+    #    ellipse(tileBounds[distances[i]][0][0] + 50, tileBounds[distances[i]][0][1] + 30, 20, 20)
 
     
     fill(128, 128, 128, 200)
