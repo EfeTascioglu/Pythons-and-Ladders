@@ -9,7 +9,7 @@ def setup():
     global backdrop, banner, dice, RandomDice, diceSound, numTiles, playerTurn, track, distances, tileBounds, numPlayers
     tileBounds = [-1]
     numTiles = 30
-    numPlayers = 4
+    numPlayers = 2
     allBoundaries = []
     startSquareX = 600
     startSquareY = 400
@@ -117,6 +117,13 @@ def draw():
     image(dice, 600, 400, 100, 100, 100*RandomDice, 0, 100+100*RandomDice, 97)
     strokeWeight(5)
     fill(255, 0, 0)
+    for i in range(numPlayers):
+        row = 4 - (distances[i]-1) //6
+        if row % 2 == 0:
+            collumn = (distances[i]-1) % 6
+        else:
+            collumn = 5 - (distances[i]-1) % 6
+        ellipse    
     for i in range(numPlayers):
         ellipse(tileBounds[distances[i]][0][0] + 50, tileBounds[distances[i]][0][1] + 30, 20, 20)
 
