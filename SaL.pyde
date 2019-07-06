@@ -1,8 +1,12 @@
 
 
+
+
+# My dice rolling sound does not work
+
 def setup():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice, RandomDice
+    global backdrop, banner, dice, RandomDice, diceSound
     allBoundaries = []
     startSquareX = 600
     startSquareY = 400
@@ -16,6 +20,9 @@ def setup():
     banner = loadImage("banner.png")
     backdrop = loadImage("snakes.png")
     dice = loadImage("dice.png")
+    add_library('minim')
+    minim=Minim(this)
+    diceSound=minim.loadFile("DiceSound.mp3")
     size ( 700, 500 )
     RandomDice = int(random(0,6))
     
@@ -40,7 +47,7 @@ def setup():
     
     
 def mouseReleased():
-    global allBoundaries, whichSquare, removeSquare, activeSquares, numSquares, RandomDice
+    global allBoundaries, whichSquare, removeSquare, activeSquares, numSquares, RandomDice, diceSound
     
 #  all Boundaries is a list of tuples,  each tuple is the upper left and lower right of each box
 #  if removeSquare is True, you will not be able to click again in that square again as that place in activeSquares will be turned to False
@@ -51,21 +58,19 @@ def mouseReleased():
         validYRange = allBoundaries[i][0][1]  <= mouseY <= allBoundaries[i][1][1]
         validLocation = validXRange and validYRange
         if validLocation:
-            print("ping")
             whichSquare = i
             keepGoing = True
             break
     if keepGoing:
         if validLocation:
-             print ( whichSquare )
-    RandomDice = int(random(0,6))
-        
+            RandomDice = int(random(0,6))
+            diceSound.play()
         
     
 
 def draw():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice, RandomDice
+    global backdrop, banner, dice, RandomDice, diceSound
    
 
     image(backdrop, 0, 0, 600, 500)
