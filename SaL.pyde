@@ -17,7 +17,7 @@ def setup():
     banner = loadImage("banner.png")
     backdrop = loadImage("snakes.png")
     dice = loadImage("dice.png")
-    size ( 1000, 700 )
+    size ( 700, 500 )
     
     for i in range( numSquares ):
         upperLeft =  [ squareXShow, squareYShow ]
@@ -68,9 +68,12 @@ def draw():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
     global backdrop, banner, dice
    
-    image(backdrop, 0, 0, 800, 700)
-    image(banner, 800, 0, 200, 600)
-    image(dice, 800, 500, 200, 200)
+    rand = random(0,6)
+    image(backdrop, 0, 0, 600, 500)
+    image(banner, 600, 0, 100, 400, 10, 10, 110, 380)
+    fill(255)
+    rect( 600, 400, 100, 100)
+    image(dice, 600, 400, 100, 100, 100*rand, 0, 100+100*rand, 97)
     '''
     squareXShow = startSquareX
     Fill = startFill
