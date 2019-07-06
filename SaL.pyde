@@ -6,10 +6,10 @@
 
 def setup():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice, RandomDice, diceSound, numTiles, player1, track, distanceP1, distanceP2, tileBounds, numPlayers
+    global backdrop, banner, dice, RandomDice, diceSound, numTiles, playerTurn, track, distances, tileBounds, numPlayers
     tileBounds = [-1]
     numTiles = 30
-    numPlayers = 2
+    numPlayers = 4
     allBoundaries = []
     startSquareX = 600
     startSquareY = 400
@@ -28,9 +28,8 @@ def setup():
     diceSound=minim.loadFile("DiceSound.mp3")
     size ( 700, 500 )
     RandomDice = int(random(0,6))
-    player1 = False
-    distanceP1 = 1
-    distanceP2 = 1
+    playerTurn = 0
+    distances = [ 1 for i in range(numPlayers)] 
     track = [i for i in range(numTiles+1)] + [ -1 for i in range(6)]
     track[3] = 22
     track[5] = 8
@@ -77,7 +76,7 @@ def setup():
     
     
 def mouseReleased():
-    global allBoundaries, whichSquare, removeSquare, activeSquares, numSquares, RandomDice, diceSound, player1, distanceP1, distanceP2, track
+    global allBoundaries, whichSquare, removeSquare, activeSquares, numSquares, RandomDice, diceSound, playerTurn, distances, track, numPlayers
     
 #  all Boundaries is a list of tuples,  each tuple is the upper left and lower right of each box
 #  if removeSquare is True, you will not be able to click again in that square again as that place in activeSquares will be turned to False
@@ -93,24 +92,22 @@ def mouseReleased():
             break
     if keepGoing:
         if validLocation:
-            player1 = not(player1)
             RandomDice = int(random(0,6))
             diceSound.play()
             delay(600)
             diceSound.pause()
             diceSound.rewind()
-            if player1:
-                if track[RandomDice+1 + distanceP1] > 0:
-                    distanceP1 = track[RandomDice+1 + distanceP1]
-            else:
-                if track[RandomDice+1 + distanceP2] > 0:
-                    distanceP2 = track[RandomDice+1 + distanceP2]
+            if track[RandomDice+1 + distances[playerTurn]] > 0:
+                    distances[playerTurn] = track[RandomDice+1 + distances[playerTurn]]
 
+        playerTurn += 1
+        if playerTurn >= numPlayers:
+            playerTurn = 0
     
 
 def draw():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice, RandomDice, diceSound, distanceP1, distanceP2, tileBounds, numPlayers
+    global backdrop, banner, dice, RandomDice, diceSound, distances, playerTurn, tileBounds, numPlayers
    
 
     image(backdrop, 0, 0, 600, 500)
@@ -121,20 +118,16 @@ def draw():
     strokeWeight(5)
     fill(255, 0, 0)
     for i in range(numPlayers):
-    ellipse(tileBounds[distanceP1][0][0] + 50, tileBounds[distanceP1][0][1] + 30, 20, 20)
-    fill(0, 0, 255)
-    ellipse(tileBounds[distanceP2][1][0] - 50, tileBounds[distanceP2][1][1] - 30, 20, 20)
+        ellipse(tileBounds[distances[i]][0][0] + 50, tileBounds[distances[i]][0][1] + 30, 20, 20)
+
     
     fill(128, 128, 128, 200)
     
-    if distanceP1 == 30:
-        rect( 0, 0, 700, 500 )
-        fill( 0, 0, 255 )
-        text("Player 1 Wins!", 350, 250 )
-    if distanceP2 == 30:
-        rect( 0, 0, 700, 500 )
-        fill( 0, 0, 255 )
-        text("Player 2 Wins!", 350 , 250 )
+    for i in range(numPlayers):
+        if distances[i] == 30:
+            rect( 0, 0, 700, 500 )
+            fill( 0, 0, 255 )
+            text("Player " + str(i+1) + " Wins!", 350, 250 )
         
         
         
