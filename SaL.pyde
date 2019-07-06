@@ -2,7 +2,7 @@
 
 def setup():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-   
+    global backdrop
     allBoundaries = []
     startSquareX = 100
     startSquareY = 200
@@ -14,7 +14,10 @@ def setup():
     removeSquare = True
     startFill = 20
     whichSquare = -1
-    size ( 1000, 400 )
+    banner = loadImage("banner.png")
+    backdrop = loadImage("snakes.png")
+    dice = loadImage("dice.png")
+    size ( 1000, 700 )
     
     for i in range( numSquares ):
         upperLeft =  [ squareXShow, squareYShow ]
@@ -63,8 +66,11 @@ def mouseReleased():
 
 def draw():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
+    global backdrop
    
-    
+    image(backdrop, 0, 0, 800, 700)
+    image(banner, 800, 
+    '''
     squareXShow = startSquareX
     Fill = startFill
     for i in range( numSquares ):
@@ -83,7 +89,7 @@ def draw():
     print ( "Y", mouseX )
     print ( activeSquares )
     delay ( 500 )
-    
+    '''
         
         
         
