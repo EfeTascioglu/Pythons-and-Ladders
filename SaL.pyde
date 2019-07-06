@@ -2,7 +2,7 @@
 
 def setup():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-    global backdrop
+    global backdrop, banner, dice
     allBoundaries = []
     startSquareX = 100
     startSquareY = 200
@@ -66,10 +66,11 @@ def mouseReleased():
 
 def draw():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-    global backdrop
+    global backdrop, banner, dice
    
     image(backdrop, 0, 0, 800, 700)
-    image(banner, 800, 
+    image(banner, 800, 0, 200, 600)
+    image(dice, 800, 500, 200, 200)
     '''
     squareXShow = startSquareX
     Fill = startFill
