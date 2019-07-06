@@ -6,9 +6,10 @@
 
 def setup():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice, RandomDice, diceSound, numTiles, player1, track, distanceP1, distanceP2, tileBounds
+    global backdrop, banner, dice, RandomDice, diceSound, numTiles, player1, track, distanceP1, distanceP2, tileBounds, numPlayers
     tileBounds = [-1]
     numTiles = 30
+    numPlayers = 2
     allBoundaries = []
     startSquareX = 600
     startSquareY = 400
@@ -30,7 +31,7 @@ def setup():
     player1 = False
     distanceP1 = 1
     distanceP2 = 1
-    track = [i for i in range(numTiles+1)]
+    track = [i for i in range(numTiles+1)] + [ -1 for i in range(6)]
     track[3] = 22
     track[5] = 8
     track[11] = 26
@@ -39,6 +40,7 @@ def setup():
     track[20] = 29
     track[21] = 9
     track[27] = 1
+    
     for i in range( numSquares ):
         upperLeft =  [ squareXShow, squareYShow ]
         lowerRight = [ squareXShow + squareWidth, squareYShow + squareHeight ]
@@ -60,7 +62,8 @@ def setup():
             squareXShow = squareXShow + squareIncrease
         squareYShow -= squareHeight
         squareIncrease *= -1
-        squareXShow += squareIncrease # So that when moving up rows it remains in the grid       
+        squareXShow += squareIncrease # So that when moving up rows it remains in the grid 
+    print(tileBounds)      
 #    activeSquares[ 4 ] = False                  These just show what happened
 #    print ( activeSquares )
             
@@ -68,8 +71,8 @@ def setup():
 #    print ( allboundaries[ 1 ])
 #    print ( allboundaries[ 1 ][1])
 #    print ( allboundaries[ 1 ][1][0] )
-    
-    
+    textSize( 30 )
+    textAlign( CENTER, CENTER )
         
     
     
@@ -93,32 +96,45 @@ def mouseReleased():
             player1 = not(player1)
             RandomDice = int(random(0,6))
             diceSound.play()
-            delay(1000)
+            delay(600)
             diceSound.pause()
             diceSound.rewind()
             if player1:
-                distanceP1 = track[RandomDice+1 + distanceP1]
+                if track[RandomDice+1 + distanceP1] > 0:
+                    distanceP1 = track[RandomDice+1 + distanceP1]
             else:
-                distanceP2 = track[RandomDice+1 + distanceP2]
-    print(distanceP1, distanceP2)
+                if track[RandomDice+1 + distanceP2] > 0:
+                    distanceP2 = track[RandomDice+1 + distanceP2]
+
     
 
 def draw():
     global allBoundaries, squareXShow, squareYShow, squareHeight, squareWidth, activeSquares, whichSquare, numSquares, squareChosen, removeSquare, startFill, startSquareX, startSquareY
-    global backdrop, banner, dice, RandomDice, diceSound, distanceP1, distanceP2, tileBounds
+    global backdrop, banner, dice, RandomDice, diceSound, distanceP1, distanceP2, tileBounds, numPlayers
    
 
     image(backdrop, 0, 0, 600, 500)
-    image(banner, 600, 0, 100, 400, 10, 10, 110, 380)
+    image(banner, 600, 0, 100, 400, 7, 7, 110, 380)
     fill(255)
     rect( 600, 400, 100, 100)
     image(dice, 600, 400, 100, 100, 100*RandomDice, 0, 100+100*RandomDice, 97)
     strokeWeight(5)
     fill(255, 0, 0)
+    for i in range(numPlayers):
     ellipse(tileBounds[distanceP1][0][0] + 50, tileBounds[distanceP1][0][1] + 30, 20, 20)
-    print(tileBounds[distanceP1][0][0], tileBounds[distanceP1][0][1])
     fill(0, 0, 255)
-    ellipse(50+100*distanceP2, 470, 20, 20)    
+    ellipse(tileBounds[distanceP2][1][0] - 50, tileBounds[distanceP2][1][1] - 30, 20, 20)
+    
+    fill(128, 128, 128, 200)
+    
+    if distanceP1 == 30:
+        rect( 0, 0, 700, 500 )
+        fill( 0, 0, 255 )
+        text("Player 1 Wins!", 350, 250 )
+    if distanceP2 == 30:
+        rect( 0, 0, 700, 500 )
+        fill( 0, 0, 255 )
+        text("Player 2 Wins!", 350 , 250 )
         
         
         
